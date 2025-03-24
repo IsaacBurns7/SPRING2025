@@ -1,0 +1,10 @@
+surprising stuff: well, it was weird to me that we could do generic iterators, and use typenames to apply general algorithims
+- in a discrete math sense, it's like treating all containers as "sets"
+- "in A, for all x,", where A and x can be any container of any typenames
+- this is very cool.
+
+- ifstreams & ofstreams can iterate through a file until a sentinel(its a 1 liner).
+- this is very cool.
+
+- beyond that this was mostly known territory
+

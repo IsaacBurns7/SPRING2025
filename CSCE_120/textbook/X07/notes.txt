@@ -1,0 +1,76 @@
+X.7 Types and Declarations
+[1] (∗2) Get the ‘‘Hello, world!’’ program (§2.2.1) to run. This is not an exercise in programming. It is an exercise to test your use of your edit-compile-link-execute tool chain.
+- not doing
+
+[2] (∗1) Write a program that prints signed if plain chars are signed on your implementation and
+unsigned otherwise.
+- 2.cpp
+
+[3] (∗1.5) Find 5 different C++ constructs for which the meaning is undefined (§6.1). (∗1.5)
+Find 5 different C++ constructs for which the meaning is implementation-defined (§6.1).
+implementation-defined: 
+    - char, int, long, float, pointers, return value of new, numeric-limits, wchar_t
+undefined: 
+    - accessing out of bounds, char to int conversion(depends on if char is signed or unsigned by default),
+assigning a large value to a signed char,
+
+[4] (∗1) Find 10 different examples of nonportable C++ code.
+- int, specifing memory locations(system may be 32 or 64 bit), little-endian vs big-endian,
+#pragma pack(not in standard, supported by some compilers), number of bytes to a pointer, and variations
+
+[5] (∗1) For each declaration in §6.3, do the following: If the declaration is not a definition, write
+a definition for it. If the declaration is a definition, write a declaration for it that is not also a
+definition.
+- char ch; -> char ch {};
+- string s; -> string s {""};
+- const double pi {3.1415}; -> const double pi;
+- you get the idea
+
+[6] (∗1.5) Write a program that prints the sizes of the fundamental types, a few pointer types, and
+a few enumerations of your choice. Use the siz eof operator.
+- 6.cpp
+
+[7] (∗1.5) Write a program that prints out the letters 'a'..'z' and the digits '0'..'9' and their integer
+values. Do the same for other printable characters. Do the same again but use hexadecimal
+notation.
+- 7.cpp
+
+[8] (∗2) What, on your system, are the largest and the smallest values of the following types:
+bool, char, shor t, int, long, long long, float, double, long double, unsigned and unsigned long.
+- 8.cpp
+
+[9] (∗1) What are the sizes (in number of chars) of the types mentioned in §X.7[8]?
+Size of bool: 1 bytes
+Size of char: 1 bytes
+Size of short: 2 bytes
+Size of int: 4 bytes
+Size of long: 8 bytes
+Size of long long: 8 bytes
+Size of float: 4 bytes
+Size of double: 8 bytes
+Size of long double: 8 bytes
+Size of unsigned: 4 bytes
+Size of unsigned long: 8 bytes
+1 byte = 1 char
+
+[10] (∗1.5) What are the alignments (in number of chars) of the types mentioned in §X.7[8]?
+- 10.cpp
+
+[11] (∗2) Draw a graph of the integer and fundamental types where a type points to another type if
+all values of the first can be represented as values of the second on every standards-conforming implementation. Draw the same graph for the types on your favorite implementation.
+- long -> int
+- long long -> long
+- long long -> int
+- w_char_t -> char
+- int -> bool
+- double -> float
+
+[12] (∗1) What is the longest local name you can use in a C++ program on your system? What is
+the longest external name you can use in a C++ program on your system? Are there any
+restrictions on the characters you can use in a name?
+- 4096 characters for both
+- u cant use unicode i believe? 
+- only alphanumeric
+
+[13] (∗1.5) Write a loop that prints out the values 4, 5, 9, 17, 12 without using an array or a vector
+- nah

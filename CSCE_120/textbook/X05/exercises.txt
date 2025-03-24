@@ -1,0 +1,24 @@
+[1] When first reading this chapter, keep a record of information that was new or surprising to
+you. Later, use that list to focus your further studies.
+- in notes.txt
+[2] (∗1) List five standard-library containers.
+- vector, deque, map, string, list(doubly linked!)
+[3] (∗1) List five standard-library algorithms.
+- sort, find, copy, merge, count, replace
+[4] (∗1) List five standard-library headers.
+- vector, map, string, iostream, fstream
+[5] (∗1.5) Write a program that reads a name (a string) and an age (an int) from the standard
+input stream cin. Then output a message including the name and age to the standard output
+stream cout.
+- in 5/main.cpp
+[6] (∗1.5) Redo §X.5[5], storing several (name,age) pairs in a class. Doing the reading and writing using your own >> and << operators.
+- in 5/main.cpp
+[7] (∗2) Initialize a vector<int> with the elements 5, 9, −1, 200, and 0. Print it. Sort is, and print it
+again.
+- in 7/main.cpp
+[8] (∗1) Repeat §X.5[7] with a vector<string> initialized with "Kant", "Plato", "Aristotle",
+"Kierkegard", and "Hume".
+- in 7/main.cpp
+[9] (∗1) Open a file for writing (as an ofstream) and write a few hundred integers to it.
+[10] (∗1) Open the file of integers from §X.5[9] for reading (as an ifstream) and read it.
+- both in 9

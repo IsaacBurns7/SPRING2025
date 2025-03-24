@@ -1,0 +1,22 @@
+[1] When first reading this chapter, keep a record of information that was new or surprising to
+you. Later, use that list to focus your further studies.
+- i thought the fact the random number generator can generate a bell curve, exponential, or uniform distribution quite interesting
+, and the exact mechanism that allows this is probably very cool!
+- regex in a language is very cool!
+- tuple's syntax of get<i>(tuple) being very weird
+- iterator traits - forward_iterator_tag, and random_access_tag very strange, but intuitively obviously useful
+- time good - not surprising though, except for nanoseconds having a type
+- async() is majorily preferable to future and packaged tasks and threads
+    - "now i gotta program in 4d across time" skullface
+- locking a mutex is expensive
+
+
+[2] (∗1.5) Write a program with two treads: one that writes hello ev ery second and one that
+writes world! ev ery second.
+[3] (∗2) Time a loop. Write out the time in milliseconds. Do this for the default setting of your
+compiler and for a setting using an optimizer (e.g., −O2 or "release"). Be careful not to have
+the optimizer eliminate your whole loop as dead code because you did not use a result.
+[4] (∗2) Repeat the histogram drawing example from §5.6.3 for a normal_distribution and 30
+rows.
+[5] (∗1.5) Use a reg ex to find all decimal numbers in a file.
+
