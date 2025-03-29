@@ -1,7 +1,52 @@
 #include <iostream>
 #include <string>
+#include <unordered_set>
+using std::string, std::cout, std::cin, std::vector;
 
-using std::string, std::cout, std::cin;
+
+int countFreq(char letters[], char target[]){
+    int i = 0;
+    int j = 0;
+    int count = 0;
+    while(letters[i] != '\0'){
+        bool match = false;
+        while(target[j] != '\0' && letters[j] != '\0'){
+            if(letters[j] != target[j]){
+                break;
+            }else{
+                match = true; //this is so it matches at least 1 char
+            }
+
+            j++;
+        }
+        if(target[j] == '\0' && match){
+            count++;
+        }
+        i++;
+        j = i;
+    }
+    return count;
+}
+
+int countFreq(string letters, string target){
+    int count = 0;
+    for(int i = 0;i<letters.size();i++){
+        bool match = false;
+        int j;
+        for(j = i;j<target.size();j++){
+            if(letters[j] != target[j]){
+                break;
+            }
+            else {
+                match = true;
+            }
+        }
+        if(match && j == target.size()){
+            count++;
+        }
+    }
+    return count;
+}
 
 /*
     [7] (∗1) Write a function that swaps (exchanges the values of) two integers. 
@@ -25,6 +70,14 @@ Which calls are legal? Which calls cause the compiler to introduce a temporary v
 void f(char);
 void g(char&);
 void h(const char&);
+
+//12
+template <typename T>
+void printArray(const T v[], int len){
+    for(int i = 0;i<len;i++){
+        cout << v[i] << '\n';
+    }
+}
 
 int main(){
     /*
@@ -83,8 +136,8 @@ an array of 7 pointers to int, and array of 8 arrays of 7 pointers to int.
     using ArrArrPint = int* [8][7];
 
     Uchar s = 'a';
-    char letters[7] {'a', 'b', 'c', 'd'};
-    PArrchar pointer_to_letters = &letters;
+    //char letters[7] {'a', 'b', 'c', 'd'};
+    //PArrchar pointer_to_letters = &letters;
 
     // cout << (*pointer_to_letters)[0]++ << '\n';
     // cout << (*pointer_to_letters)[0]++ << '\n';
@@ -113,17 +166,17 @@ an array of 7 pointers to int, and array of 8 arrays of 7 pointers to int.
 between the two pointed-to characters (zero if they point to the same element).
     */
 
-    char word[] {"abcdefghijklmnopqrstuvwxyz"};
-    char* pch1{&word[25]};
-    char* pch2{&word[1]};
+    // char word[] {"abcdefghijklmnopqrstuvwxyz"};
+    // char* pch1{&word[25]};
+    // char* pch2{&word[1]};
 
-    char* start = std::min(pch1, pch2);
-    char* end = std::max(pch2, pch1);
-    int count = 0;
-    while(start < end){
-        count++;
-        start++;
-    }
+    // char* start = std::min(pch1, pch2);
+    // char* end = std::max(pch2, pch1);
+    // int count = 0;
+    // while(start < end){
+    //     count++;
+    //     start++;
+    // }
     // cout << count << '\n';
 
     /*
@@ -206,23 +259,60 @@ Then try hard never to do out-of-range access by mistake.
     char c = 'a';
     unsigned char uc = 'a';
     signed char sc = 'a';
-    f('a');
-    g('a'); //invalid - initial value of reference to non-const must be lvalue - true for 'a', 49,
-    h('a'); //creates a temporary variable - true for 'a', 49, 3300
-    f(49);
-    g(49);
-    h(49);
-    f(3300);
-    g(3300);
-    h(3300);
-    f(c);
-    g(c);
-    h(c);
-    f(uc);
-    g(uc);
-    h(uc);
-    f(sc);
-    g(sc);
-    h(sc);
-}
+    // f('a');
+    // g('a'); //invalid - initial value of reference to non-const must be lvalue - true for 'a', 49,
+    // h('a'); //creates a temporary variable - true for 'a', 49, 3300
+    // f(49);
+    // g(49);
+    // h(49);
+    // f(3300);
+    // g(3300);
+    // h(3300);
+    // f(c);
+    // g(c);
+    // h(c);
+    // f(uc);
+    // g(uc);
+    // h(uc);
+    // f(sc);
+    // g(sc);
+    // h(sc);
 
+    /*
+    [10] (∗1) Define an array of strings in which the strings contain the names of the months. Print
+those strings. Pass the array to a function that prints those strings.
+    */
+    // string months[12]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    // for(int i = 0;i<12;i++){
+    //     cout << months[i] << '\n';
+    // }
+    // printArray(months, 12);
+
+    /*
+    [11] (∗2) Read a sequence of words from input. Use Quit as a word that terminates the input.
+Print the words in the order they were entered. Don’t print a word twice. Modify the program to sort the words before printing them.
+    */
+    // string word = "";
+    // std::unordered_set<string> words;
+    // cin >> word;
+    // while(word != "Quit"){
+    //     words.insert(word);
+    //     cin >> word;
+    // }
+    // for(const auto& word: words){
+    //     cout << word << '\n';
+    // }
+
+    /*
+    [12] (∗2) Write a function that counts the number of occurrences of a pair of letters in a string and
+another that does the same in a zero-terminated array of char (a C-style string). For example,
+the pair "ab" appears twice in "xabaacbaxabb".
+    */
+
+    char letters[] {"abasdrwabfsafsadabd"};
+    char target[] {"ab"};
+    string letters2 = "abasdrwabfsafsadabd";
+    string target2 = "ab";
+    cout << countFreq(letters, target) << '\n';
+    cout << countFreq(letters2, target2) << '\n';
+}

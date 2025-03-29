@@ -1,35 +1,14 @@
-[1] (∗1) Write declarations for the following: a pointer to a character, an array of 10 integers, a
-reference to an array of 10 integers, a pointer to an array of character strings, a pointer to a
-pointer to a character, a constant integer, a pointer to a constant integer, and a constant
-pointer to an integer. Initialize each one.
-[2] (∗1.5) What, on your system, are the restrictions on the pointer types char∗, int∗, and void∗?
-For example, may an int∗ have an odd value? Hint: alignment.
-[3] (∗1) Use an alias (using) to define the types unsigned char, const unsigned char, pointer to
-integer, pointer to pointer to char, pointer to array of char, array of 7 pointers to int, pointer to
-an array of 7 pointers to int, and array of 8 arrays of 7 pointers to int.
-[4] (∗1) Given two char∗s pointing into an array, find and output the number of characters
-between the two pointed-to characters (zero if they point to the same element).
-[5] (∗1) Given two int∗s pointing into an array, find and output the number of ints between the
-two pointed-to ints (zero if they point to the same element).
-- ignoring
-[6] (∗2) What happens when you read and write beyond the bounds of an array. Do a few experiments involving a global array of ints , a local array of ints, an array of ints allocated by new,
-and a member array of ints. Try reading and writing just beyond the end and far beyond the
-end. Try the same for just before and far before the beginning. See what happens for different optimizer levels. Then try hard never to do out-of-range access by mistake.
-[7] (∗1) Write a function that swaps (exchanges the values of) two integers. Use int∗ as the argument type. Write another swap function using int& as the argument type.
-[8] (∗1.5) What is the size of the array str in the following example:
-char str[] = "a short string";
-What is the length of the string "a short string"?
-- 6+6+2 = 14
-[9] (∗1) Define functions f(char), g(char&), and h(const char&). Call them with the arguments 'a',
-49, 3300, c, uc, and sc, where c is a char, uc is an unsigned char, and sc is a signed char.
-Which calls are legal? Which calls cause the compiler to introduce a temporary variable?
-[10] (∗1) Define an array of strings in which the strings contain the names of the months. Print
-those strings. Pass the array to a function that prints those strings.
-[11] (∗2) Read a sequence of words from input. Use Quit as a word that terminates the input.
-Print the words in the order they were entered. Don’t print a word twice. Modify the program to sort the words before printing them.
-[12] (∗2) Write a function that counts the number of occurrences of a pair of letters in a string and
-another that does the same in a zero-terminated array of char (a C-style string). For example,
-the pair "ab" appears twice in "xabaacbaxabb".
-[13] (∗2) Run some tests to see if your compiler really generates equivalent code for iteration
-using pointers and iteration using indexing (§7.4.1). If different degrees of optimization can
-be requested, see if and how that affects the quality of the generated code.
+X.9 Structures, Unions, and Enumerations
+[1] (∗1) Define a struct with a member of each of the types bool, char, int, long, double, and long
+double. Order the members so as to get the largest size of the struct and the smallest size of
+the struct.
+[2] (∗1.5) Define a table of the names of months of the year and the number of days in each
+month. Write out that table. Do this twice; once using an array of char for the names and an
+array for the number of days and once using an array of structures, with each structure holding the name of a month and the number of days in it.
+[3] (∗1.5) Find an example where it would make sense to use a name in its own initializer.
+[4] (∗1.5) Define a struct Date to keep track of dates. Provide functions that read Dates from
+input, write Dates to output, and initialize a Date with a date.
+[5] (∗2) Implement an enum called Season with enumerators spring, summer, autumn, and winter.
+Define operators ++ and −− for Season. Define input (>>) and output (<<) operations for Season, providing string values. Provide a way to control the mapping between Season values
+and their string representations. For example, I might want the strings to reflect the Danish
+names for the seasons. For further study, see Chapter 39.
