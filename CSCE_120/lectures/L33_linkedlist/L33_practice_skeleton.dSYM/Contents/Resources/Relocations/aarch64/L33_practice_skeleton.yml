@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     L33_practice_skeleton
+relocations:     []
+...

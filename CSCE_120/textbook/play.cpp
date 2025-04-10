@@ -23,5 +23,13 @@ int main(){
     //{1,2,3,4,5,...,n} for m arrays. 
     //this may be able to be solved by DP 
     vector<int> choices = {2,3,4};
-    cout << recursive(choices, 4, 10, 0);
+    // cout << recursive(choices, 4, 10, 0);
+
+    int x = 2;
+    int* p = &++x;
+    // int* q = &(x++); //ERROR: x++ resolves to an rvalue (a temp value with no address)
+    int x2 = x++; //x++ is a rvalue int
+    int* q = &x2;
+    cout << x << " " << *p << " " << *q << "\n";
+
 }

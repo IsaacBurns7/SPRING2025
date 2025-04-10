@@ -34,7 +34,7 @@ std::string Player::getHandString(){
 Card* Player::playCard(vector<string> const& suits, string& currentRank, string& currentSuit){
     // TODO: Choose a card to play and return the chosen card. Update currentRank and currentSuit.
     if(isAI){
-        for(int i = 0;i<hand.size();i++){
+        for(size_t i = 0;i<hand.size();i++){
             auto* Card = hand[i];
             if(Card->canBePlayed(currentRank, currentSuit)){
                 currentRank = Card->getRank();

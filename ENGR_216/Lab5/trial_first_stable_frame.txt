@@ -1,0 +1,6 @@
+1_circle_trial: 500
+1_pentagon_trial: 400
+1_triangle_trial: 400
+2_circle_trial: 350
+2_pentagon_trial: 250
+2_triangle_trial: 820
