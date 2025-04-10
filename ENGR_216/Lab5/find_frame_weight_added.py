@@ -55,7 +55,7 @@ def find_stable_frames(csv_file, x1_string, y1_string, x2_string, y2_string, win
                     label = f'Stable Value: {result["distance"].mean():.4f}')
         plt.title('Point Distance Over Frames')
         plt.xlabel('Frame Number')
-        plt.ylabel('Distance')
+        plt.ylabel('Distance(cm)')
         plt.grid(True, alpha=0.3)
         plt.legend()
 
@@ -72,10 +72,10 @@ output_image = sys.argv[2] if len(sys.argv) > 2 else "distance_analysis.png"
 window_size = int(sys.argv[3]) if len(sys.argv) > 3 else 5
 threshold = float(sys.argv[4]) if len(sys.argv) > 4 else 0.05
 
-x1_string = "pos_pixel_x-green"
-y1_string = "pos_pixel_y-green" 
-x2_string = "pos_pixel_x-hotpink"
-y2_string = "pos_pixel_y-hotpink"
+x1_string = "r_x-green"
+y1_string = "r_y-green" 
+x2_string = "r_x-hotpink"
+y2_string = "r_y-hotpink"
 df, result, plt, stable_frames = find_stable_frames(csv_file, x1_string, y1_string, x2_string, y2_string, window_size, threshold)
 if result.empty:
     print("No frames found where distance stabilizes to a constant value")
