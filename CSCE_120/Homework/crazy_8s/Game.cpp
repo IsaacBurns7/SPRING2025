@@ -11,58 +11,94 @@ Game::Game(): players({}), suits({}), ranks({}),
 void Game::loadDeckFromFile(string filename){
     // TODO: initialize suits, ranks, deck, and drawPile from the given file
     std::ifstream inFile {filename};
-    if(!inFile.is_open()){
+    string str;
+    if(!inFile){
         throw std::runtime_error("loadDeckFromFile: Cannot open file");
     }
-    string suitsString;
-    getline(inFile, suitsString);
-    std::istringstream suitsStream(suitsString);
-    string ranksString; 
-    getline(inFile, ranksString);
-    std::istringstream ranksStream(ranksString); 
+    getline(inFile, str);
+    std::istringstream suitsStream(str);
+    getline(inFile, str);
+    std::istringstream ranksStream(str); 
 
     std::string token;
 
     //suit and rank must be alnum
     while(suitsStream >> token){
-        for(const auto& ch : token){
-            if(!std::isalnum(ch)){
-                throw std::runtime_error("loadDeckFromFile: Non-Alphanumeric detected while reading in suits");
-            }
-        }
-        this->suits.push_back(token); 
+        // for(const auto& ch : token){
+        //     if(!std::isalnum(ch)){
+        //         throw std::runtime_error("loadDeckFromFile: Non-Alphanumeric detected while reading in suits");
+        //     }
+        // }
+        suits.push_back(token); 
     }
-    while(ranksStream >> token){
-        for(const auto& ch : token){
-            if(!std::isalnum(ch)){
-                throw std::runtime_error("loadDeckFromFile: Non-Alphanumeric detected while reading in ranks");
-            }
-        }
-        this->ranks.push_back(token); 
+    if(!inFile){
+        throw std::runtime_error("error while reading suits");
     }
-    try {
-        string token;
-        string rank;
-        string suit;
-        while(getline(inFile, token)){
-            std::istringstream cardStream(token); //this may be an issue
-            cardStream >> rank; 
-            cardStream >> suit;
-            //IF NOT RANK OR SUIT NOT THERE!
 
-            Card* card = new Card{rank, suit}; //can throw std::invalid_argument
-            deck.push_back(card);
-            rank = "";
-            suit = "";
+    bool contains8 = false;
+    while(ranksStream >> token){
+        // for(const auto& ch : token){
+        //     if(!std::isalnum(ch)){
+        //         throw std::runtime_error("loadDeckFromFile: Non-Alphanumeric detected while reading in ranks");
+        //     }
+        // }
+        if(token == "8"){
+            contains8 = true;
         }
-    } catch (std::invalid_argument& error){
-        throw std::runtime_error("loadDeckFromFile: Error reading in deck.");
+        ranks.push_back(token); 
+    }
+
+    if(!contains8){
+        throw std::runtime_error("loadDeckFromFile: Deck does not contain a rank of 8");
+    }
+    while(!inFile.eof()){
+        try{
+
+            string rank;
+            string suit;
+            string extra;
+            getline(inFile, str);
+            std::stringstream cardStream (str);
+            if(!(cardStream >> rank)){
+                throw std::runtime_error("loadDeckFromFile: Failed to read in rank");
+            }
+            if(!(cardStream >> suit)){
+                throw std::runtime_error("loadDeckFromFile: Failed to read in suit");
+            }
+            if(cardStream >> extra){
+                throw std::runtime_error("loadDeckFromFile: Extra input in card");
+            }
+
+
+            bool suitValid = false; 
+            bool rankValid = false;
+            for(size_t i = 0; i<suits.size();i++){
+                if(suits[i] == suit){
+                    suitValid = true;
+                }
+            }
+            for(size_t i = 0; i<ranks.size();i++){
+                if(rank == ranks[i]){
+                    rankValid = true;
+                }
+            }
+
+            if(!(suitValid && rankValid)){
+                throw std::runtime_error("loadDeckFromFile: Rank or Suit not Valid.");
+            }
+            Card* newCard = new Card{rank, suit};
+            deck.push_back(newCard);
+            drawPile.insert(drawPile.begin(),newCard);
+
+        } catch (std::exception& error){
+            throw std::runtime_error(error.what());
+        }
     }
     //drawPile needs to be in reverse order(last card is drawn first)
-    for(size_t i = deck.size()-1;i>=0;i--){
-        Card* card = deck[i];
-        drawPile.push_back(card); //drawPile[0] = first to draw
-    }
+    // for(size_t i = deck.size()-1;i!=0;i--){
+    //     Card* card = deck[i];
+    //     drawPile.push_back(card); //drawPile[0] = first to draw
+    // }
 }
 
 void Game::addPlayer(bool isAI){
@@ -75,20 +111,26 @@ void Game::drawCard(Player* p){
     int n = drawPile.size();
     if(n > 0){
         p->addToHand(drawPile[n-1]);
-        drawPile.erase(drawPile.end());
+        drawPile.pop_back();
         return;
     }
-    cout << "Draw pile, empty, flipping the discard pile.";
     int m = discardPile.size();
-    if(m == 1){
+    if(m <= 1){
         throw std::runtime_error("drawCard: Nothing to draw.");
     }
-    for(size_t i = m-1;i>=0;i++){
+    cout << "Draw pile, empty, flipping the discard pile.\n";
+    Card* topCard = discardPile[m-1];
+    for(size_t i = m-2;i<drawPile.size();i--){
         drawPile.push_back(discardPile[i]);
+        if(i == 0){
+            break;
+        }
     }
-    discardPile.erase(discardPile.begin()+1, discardPile.end());
-    p->addToHand(drawPile[m-2]); //drawPile is of size m-1
-    drawPile.erase(drawPile.end());
+    discardPile.clear();
+    discardPile.push_back(topCard);
+
+    p->addToHand(drawPile[drawPile.size()-1]); //drawPile is of size m-1
+    drawPile.pop_back();
 }
 
 Card* Game::deal(int numCards){
@@ -97,9 +139,10 @@ Card* Game::deal(int numCards){
     size_t n = drawPile.size();
     Card* discard = drawPile[n-1];
     discardPile.push_back(discard);
+    drawPile.pop_back();
     for(int i = 0;i<numCards;i++){
         for(auto* player: players){
-            this->drawCard(player);
+           drawCard(player);
         }
     }
     return discard;
@@ -108,15 +151,65 @@ Card* Game::deal(int numCards){
 string Game::mostPlayedSuit(){
     // TODO: Return the suit which has been played the most times
     // if there is a tie, choose any of the tied suits
+    int mx_played = 0;
+    string mx_suit = "";
     size_t n = suits.size();
     std::vector<int> freq(n, 0);
-    for(auto* card: deck){
-
+    for(size_t i = 0;i < suits.size(); i++){
+        int played = 0;
+        for(size_t j = 0;j< deck.size(); j++){
+            if(deck[j]->getSuit() == suits[i]){
+                played += deck[j]->getTimesPlayed();
+            }
+        }
+        if(played > mx_played){
+            mx_suit = suits[i];
+            mx_played = played;
+        }
     }
+    return mx_suit;
 }
 
 int Game::runGame(){
     // TODO: Run the game and return the number of the winning player
+    int n = discardPile.size();
+    string currSuit = discardPile[n-1]->getSuit();
+    string currRank = discardPile[n-1]->getRank();
+
+    while(true){
+
+        for(size_t i = 0; i<players.size();i++){
+            std::cout << "Player " << i << "'s turn!\n";
+            Card* played = players[i]->playCard(suits, currRank, currSuit);
+
+            if(played == nullptr){
+                try{
+                    //may throw std::runtime_error
+                    std::cout << "Player " << i << " draws a card.\n";
+                }catch(std::runtime_error e){
+                    std::cout << "Player " << i << " cannot draw a card.\n";
+                    return -1;
+                }
+                continue;
+            }
+
+            discardPile.push_back(played);
+            std::cout << "Player " << i << " plays " << played->getRank() << " " << played->getSuit();
+            if(currRank == "8"){
+                std::cout << " and changes the suit to " << currSuit << ".\n";
+            }else{
+                std::cout << ".\n";
+            }
+
+            if(players[i]->getHandSize() == 0)
+            {
+                return i;
+            }
+            
+        }
+    }
+
+    return 0;
 }
 
 //Destructor--Deallocates all the dynamic memory we allocated

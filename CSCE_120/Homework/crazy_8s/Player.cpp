@@ -76,16 +76,20 @@ Card* Player::playCard(vector<string> const& suits, string& currentRank, string&
                 cout << "You can't play that card. Try again.\n";
                 continue;
             }
-            while(rank == "8"){
+            if(rank == "8"){
                 cout << "What suit would you like to declare?\n";
-                cin >> suit;
-                for(const auto& suit2: suits){
-                    if(suit == suit2){
-                        break;
+                bool suitValid = false;
+                while(!suitValid){
+                    cin >> suit;
+                    for(const auto& suit2: suits){
+                        if(suit == suit2){
+                            suitValid = true;
+                        }
+                    }
+                    if(!suitValid){
+                        cout << "That's not a suit in this deck. Try again.\n";
                     }
                 }
-                //suit not found
-                cout << "That's not a suit in this deck. Try again.\n";
             }
             currentRank = rank;
             currentSuit = suit;
