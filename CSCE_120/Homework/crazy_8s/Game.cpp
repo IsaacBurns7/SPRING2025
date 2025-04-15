@@ -212,8 +212,8 @@ int Game::runGame(){
     return 0;
 }
 
-//Destructor--Deallocates all the dynamic memory we allocated
-//You shouldn't touch this
+    //Destructor--Deallocates all the dynamic memory we allocated
+    //You shouldn't touch this
 Game::~Game(){
     for (unsigned int i = 0; i < deck.size(); i++){
         delete deck.at(i);

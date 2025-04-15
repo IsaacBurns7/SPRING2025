@@ -52,7 +52,11 @@
         "list": "cpp",
         "memory": "cpp",
         "future": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "iterator": "cpp",
+        "forward_list": "cpp",
+        "unordered_set": "cpp",
+        "sstream": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
