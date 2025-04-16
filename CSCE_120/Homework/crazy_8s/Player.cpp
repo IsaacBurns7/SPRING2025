@@ -59,7 +59,7 @@ Card* Player::playCard(vector<string> const& suits, string& currentRank, string&
             }
             
             Card* card = nullptr;
-            int i;
+            size_t i;
 
             for(i = 0;i<hand.size();i++){
                 Card* card2 = hand[i];

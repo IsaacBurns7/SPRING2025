@@ -109,25 +109,22 @@ void Game::drawCard(Player* p){
     // TODO: Move the top card of the draw pile to Player p's hand
     // If the draw pile is empty, flip the discard pile to create a new one
     int n = drawPile.size();
-    if(n > 0){
-        p->addToHand(drawPile[n-1]);
-        drawPile.pop_back();
-        return;
-    }
     int m = discardPile.size();
-    if(m <= 1){
+    if(n == 0 && m <= 1){
         throw std::runtime_error("drawCard: Nothing to draw.");
     }
-    cout << "Draw pile, empty, flipping the discard pile.\n";
-    Card* topCard = discardPile[m-1];
-    for(size_t i = m-2;i<drawPile.size();i--){
-        drawPile.push_back(discardPile[i]);
-        if(i == 0){
-            break;
+    if(drawPile.empty() && m > 1){
+        cout << "Draw pile, empty, flipping the discard pile.\n";
+        Card* topCard = discardPile[discardPile.size()-1];
+        for(size_t i = discardPile.size()-2; i < discardPile.size();i--){
+            drawPile.push_back(discardPile[i]);
+            if(i == 0){
+                break;
+            }
         }
+        discardPile.clear();
+        discardPile.push_back(topCard);
     }
-    discardPile.clear();
-    discardPile.push_back(topCard);
 
     p->addToHand(drawPile[drawPile.size()-1]); //drawPile is of size m-1
     drawPile.pop_back();
@@ -185,8 +182,9 @@ int Game::runGame(){
             if(played == nullptr){
                 try{
                     //may throw std::runtime_error
+                    drawCard(players[i]);
                     std::cout << "Player " << i << " draws a card.\n";
-                }catch(std::runtime_error e){
+                }catch( ... ){
                     std::cout << "Player " << i << " cannot draw a card.\n";
                     return -1;
                 }
