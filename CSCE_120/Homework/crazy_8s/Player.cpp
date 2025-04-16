@@ -50,7 +50,6 @@ Card* Player::playCard(vector<string> const& suits, string& currentRank, string&
         std::cout << "Your hand contains: " << this->getHandString() << '\n';
         std::cout << "The next card played must be a " << currentRank << " or " << currentSuit << '\n';
         std::cout << "What would you like to play? (enter \"draw card\" to draw a card)\n";
-
         while(true){
             std::cin >> rank >> suit;
 
