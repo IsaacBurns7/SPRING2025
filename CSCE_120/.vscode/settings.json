@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.ejs": "html",
         "string": "cpp",
         "vector": "cpp",
         "__hash_table": "cpp",
@@ -56,7 +57,8 @@
         "iterator": "cpp",
         "forward_list": "cpp",
         "unordered_set": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "__config": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

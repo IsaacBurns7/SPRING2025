@@ -35,8 +35,9 @@ istream& operator>>(istream& is, MyString& str) {
 int main () {
 	// open command file
 	MyString filename; // MyString: default constructor
+	cout << "Give file: ";
 	cin >> filename; // operator>> is provided above
-	cout << filename;
+	//cout << filename;
 
 	ifstream commands(filename.data()); // MyString: data() return const char* type (otherwise, have to implement ifstream constructor for MyString type)
 

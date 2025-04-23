@@ -14,7 +14,8 @@
                 "*.cpp",
                 "-Wall",
                 "-Wextra",
-                "-fsanitize=undefined"
+                "-fsanitize=undefined",
+                "-std=c++17"
             ],
             "options": {
                 "cwd": "${fileDirname}"

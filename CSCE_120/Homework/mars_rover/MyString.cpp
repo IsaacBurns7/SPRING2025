@@ -20,48 +20,57 @@ char* strcpy(char* destination, const char* source){
     return dest;
 }
 
-MyString::MyString():str(new char('\0')), len(0){
+MyString::MyString():str(new char[1]{'\0'}), len(0), cap(0){
 
 }
-MyString::MyString(const char* c_arr){
-    len = strlen(c_arr);
-    str = new char[len+1];
-    strcpy(str, str);
+MyString::MyString(const char* c_arr): len(strlen(c_arr)), cap(len){
+    str = new char[cap + 1];
+    strcpy(str, c_arr);
 }
-MyString::MyString(MyString& other){
-    len = other.len;
-    str = new char[len + 1];
+MyString::MyString(const MyString& other): len(other.len), cap(len){
+    str = new char[cap + 1];
     strcpy(str, other.str);
 }
 
 bool MyString::empty(){
     return len == 0;
 }
+bool MyString::empty() const {
+    return len == 0;
+}
 void MyString::clear(){
     len = 0;
-    delete[] str;
-    str = new char('\0');
+    if(str) str[0] = '\0';
 }
-size_t MyString::find(MyString& target){
-    if(!str || target.empty()) return -1;
 
-    int i = 0;
-    while(str[i] != '\0'){
+size_t MyString::find(const MyString& target, size_t pos) const {
+    if(empty() || target.empty() || pos > len || (len - pos) < target.length()) return -1;
+
+    while(str[pos] != '\0'){
         int j = 0;
-        while(target.at(j) != '\0' && str[i+j] == target.at(j)){
+        char ch = target.str[j];
+        char ch2 = str[pos+j];
+        while(ch != '\0' && ch == ch2){
+            j++;
+            ch = target.str[j];
+            ch2 = str[pos+j];
         }
-        if(target.at(j) == '\0'){
-            return i;
+        if(target.str[j] == '\0'){
+            return pos;
         }
-        i++;
+        pos++;
     }
     return -1;
 }
+
 size_t MyString::length() const{
     return len;
 }
 size_t MyString::size() const{
     return len;
+}
+size_t MyString::capacity() const {
+    return cap;
 }
 char& MyString::at(size_t index){
     if(index >= len){
@@ -81,24 +90,39 @@ char& MyString::front(){
 const char& MyString::front() const{
     return str[0];
 }
-const char* MyString::data(){
+const char* MyString::data() const{
     return str;
 }
 
+MyString& MyString::operator=(const MyString& other){
+    if(this != &other){
+        delete[] str;
+        len = other.length();
+        cap = other.cap;
+        str = new char[cap+1];
+        strcpy(str, other.str);
+    }
+    return *this;
+}
+
 MyString& MyString::operator+=(const MyString& other){
-    int newLength = other.length() + len;
-    char* tmp = new char[len+1];
-    strcpy(tmp, str);
-    delete[] str;
+    size_t newLength = other.length() + len;
 
-    str = new char[newLength+1];
+    if(newLength > cap){
+        size_t newCap = newLength * 2;
+        char* newStr = new char[newCap+1];
+        strcpy(newStr, str);
+        delete[] str;
+        str = newStr;
+        cap = newCap;
+    }
 
-    for(int i = 0;i<len;i++){
-        str[i] = tmp[i];
+    for(size_t i = 0;i < other.len;i++){
+        str[len + i] = other.str[i]; 
     }
-    for(int i = len;i<newLength;i++){
-        str[i] = other.at(len-i);
-    }
+    len = newLength;
+    str[len] = '\0';
+
     return *this;
 }
 // istream& operator>>(istream& is, MyString& obj){
